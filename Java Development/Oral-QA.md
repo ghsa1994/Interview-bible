@@ -102,10 +102,10 @@ jdk是用java反射机制来实现的，性能稍微慢一些，但是不会成�
 
 ##	SpringBoot基本概念
 ###	说一下SpringBoot的核心注解
-SpringBoot的核心注解是SpringBootApplication，它是有3个注解构成的，SpringBootConfiguration、EnableAutoconFiguration和C##mponentScan.
+SpringBoot的核心注解是SpringBootApplication，它是有3个注解构成的，SpringBootConfiguration、EnableAutoconFiguration和ComponentScan.
 SpringBootConfiguration表示这是一个配置文件类，会被ComponentScan扫描到，它的作用相当于一个Configuration注解，然后Spring会扫描添加了Configuration的类获取其中的配置信息
 EnableAutoconFiguration是启动自动配置的注解，使用它之后，SpringBoot就会根据项目中引入的JAR包，自动配置项目中的配置项。
-C##mponentScan是配置组件扫描的指令，所扫描当前包和子包下面文件中的注解
+ComponentScan是配置组件扫描的指令，所扫描当前包和子包下面文件中的注解
 ###	SpringBoot怎么解决跨域问题
 增加跨域配置类，重写webmvcConfigurer,使用@Crossorigin注解，搞个自定义过滤器，手动设置接口的响应头。如果是前后端分离的那么也可以在Nginx中配置。如果有使用Spring Security，注意配置cors在过滤器上面。
 ##	Spring事务
@@ -276,7 +276,7 @@ redis的集群主要有几种模式吧，主从模式，哨兵模式，集群模
 RabbitMQ的主要特点是支持磁盘和内存持久化，支持少量堆积。支持事务，支持集群，但是只支持复制模式，不支持顺序消息，不支持消息回溯，不支持消息重试，并发极高。
 RocketMQ的主要特点是只支持磁盘持久化，支持大量堆积。支持事务，支持集群，但是开源版本只能手动切换
 ##	怎么保证消息队列消息不丢失
-如RocketMQ，主要考虑了几个方面吧，生产端保证发送成功到消息队列判断返回的消息就可以了，如果需要需要保证完全不会丢失可以开始同步刷盘。消息队列RocketMQ服务方面主要是搞高可用。消费者方面可以通过消费者返回的消息是成功就是消费成功，如果返回later，null或者抛出异常了就是消费失败了会重试，如果不希望重试可以返回C##mmitMessage，消费重试最多16次，超过16次会进入死信。
+如RocketMQ，主要考虑了几个方面吧，生产端保证发送成功到消息队列判断返回的消息就可以了，如果需要需要保证完全不会丢失可以开始同步刷盘。消息队列RocketMQ服务方面主要是搞高可用。消费者方面可以通过消费者返回的消息是成功就是消费成功，如果返回later，null或者抛出异常了就是消费失败了会重试，如果不希望重试可以返回CommitMessage，消费重试最多16次，超过16次会进入死信。
 RabbitMQ这边我也了解过，生产者可以开始事务和确认模式，broker开启队列持久化和消息持久化。然后消费者，关闭自动ack，在消费失败的情况下情况下返回nack。
 
 #	分布式
