@@ -94,7 +94,7 @@ Spring容器有两种BeanFactory和ApplicationContext。BeanFactory是一个简�
 注入操作系统属性systemProperties
 注入表达式结果
 ###	Spring使用了哪些代理模式
-使用了JDK动态代理和cglib代理。一般情况下如果是对象有接口的那么就会使用jdk动态代理，如果没有接口则使用cglib代理，当然可以指定使用哪个代理，使用@EnableAspectJAutopr##xy(pr##xyTargetClass = true)，True为cglib代理，false为jdk动态代理
+使用了JDK动态代理和cglib代理。一般情况下如果是对象有接口的那么就会使用jdk动态代理，如果没有接口则使用cglib代理，当然可以指定使用哪个代理，使用@EnableAspectJAutoproxy(proxyTargetClass = true)，True为cglib代理，false为jdk动态代理
 ####	两种代理模式有什么不同
 jdk是用java反射机制来实现的，性能稍微慢一些，但是不会成为性能瓶颈，只能代理实现了接口的目标对象。cglib是通过继承的目的来实现的，所以可以代理任何目标对象，效率更高些。
 
@@ -106,12 +106,12 @@ SpringBootConfiguration表示这是一个配置文件类，会被ComponentScan�
 EnableAutoconFiguration是启动自动配置的注解，使用它之后，SpringBoot就会根据项目中引入的JAR包，自动配置项目中的配置项。
 C##mponentScan是配置组件扫描的指令，所扫描当前包和子包下面文件中的注解
 ###	SpringBoot怎么解决跨域问题
-增加跨域配置类，重写webmvcConfigurer,使用@Cr##ssorigin注解，搞个自定义过滤器，手动设置接口的响应头。如果是前后端分离的那么也可以在Nginx中配置。如果有使用Spring Security，注意配置cors在过滤器上面。
+增加跨域配置类，重写webmvcConfigurer,使用@Crossorigin注解，搞个自定义过滤器，手动设置接口的响应头。如果是前后端分离的那么也可以在Nginx中配置。如果有使用Spring Security，注意配置cors在过滤器上面。
 ##	Spring事务
 ###	Spring事务在什么情况下会失效
 一般情况下是，没有使用public，使用final修饰，内部调用，多线程调用，数据库不支持，没有被Spring管理，错误的传播类型，手动处理了异常，抛出来了别的异常等。
 ###	Spring事务有哪几种实现方式
-使用Transactional注解实现声明式事务，使用transactionTemplate做编程式事务，使用AOP配置事务和使用transactionPr##xyFactoryBean的声明式事务管理。
+使用Transactional注解实现声明式事务，使用transactionTemplate做编程式事务，使用AOP配置事务和使用transactionProxyFactoryBean的声明式事务管理。
 ###	Spring事务的传播机制
 Spring的传播机制有required、surpports，MANDATORY ，REQUIRES_NEW，NOT_SUPporTED，NEVER 和NESTED 。默认的隔离级别是required，就是上下文有事务的时候就用这个事务，如果没有事务就创建一个事务。surpports有事务就加入事务，没有事务就用非事务执行。MANDATorY如果上下文没有事务就抛出异常。REQUIRES_NEW内存都创建一个新的事务，当上下文存在事务的情况下就先挂起执行新的事务。Not_SUPporTED是有事务的情况下就挂起，用非事务方式执行新的代码。never是存在事务抛出异常，没有事务则在没有事务上执行。NESTED嵌套事务是上下午存在事务，则嵌套事务执行，否则就新建事务。
 ###	spring事务的隔离级别
