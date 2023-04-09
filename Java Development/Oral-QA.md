@@ -176,7 +176,7 @@ java反射是指在运行时态获取类的信息，调用对象的方法，操�
 ###	Hashtable与HashMap的区别
 Hashtable是线程安全的，HashMap是线程不安全的。Hashtable的key不允许为null,HashMap的key允许为null。Hashtable的hash是取的key的hash，但是HashMap的hash是根据算法新生成的。Hashtable初始容量是11，扩容是2n+1。HashMap初始容量是16，扩容是2n。其他在使用上也有一些不同，如迭代器不一样，hashtable 还有contains方法等
 ###	HashMap在多线程中会产生什么问题
-扩容死循环，这个在1.7之后改为了尾插法就不会出现了
+因为使用了头插法，两个线程同时插入的时候会出现死循环，这个在1.7之后改为了尾插法就不会出现了
 多线程的put可能导致元素的丢失
 put和get并发时可能会导致get为null
 ###	有哪些线程安全的map类
