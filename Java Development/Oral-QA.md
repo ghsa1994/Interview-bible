@@ -103,10 +103,10 @@ jdk是用java反射机制来实现的，性能稍微慢一些，但是不会成�
 
 ##	SpringBoot基本概念
 ###	说一下SpringBoot的核心注解
-SpringBoot的核心注解是SpringBootApplication，它是有3个注解构成的，SpringBootConfiguration、EnableAutoconFiguration和C##mponentScan.
+SpringBoot的核心注解是SpringBootApplication，它是有3个注解构成的，SpringBootConfiguration、EnableAutoconFiguration和ComponentScan.
 SpringBootConfiguration表示这是一个配置文件类，会被ComponentScan扫描到，它的作用相当于一个Configuration注解，然后Spring会扫描添加了Configuration的类获取其中的配置信息
 EnableAutoconFiguration是启动自动配置的注解，使用它之后，SpringBoot就会根据项目中引入的JAR包，自动配置项目中的配置项。
-C##mponentScan是配置组件扫描的指令，所扫描当前包和子包下面文件中的注解
+ComponentScan是配置组件扫描的指令，所扫描当前包和子包下面文件中的注解
 ###	SpringBoot怎么解决跨域问题
 增加跨域配置类，重写webmvcConfigurer,使用@Crossorigin注解，搞个自定义过滤器，手动设置接口的响应头。如果是前后端分离的那么也可以在Nginx中配置。如果有使用Spring Security，注意配置cors在过滤器上面。
 ##	Spring事务
@@ -121,6 +121,13 @@ Spring事务的隔离级别默认情况下是使用数据库的设置，其他4�
 ##	SpringCloud
 ###	feign的本质
 feign的本质是一个http调用客户端，它的本质是动态代理，feign会根据注解来构建请求接口。
+### SpringCloud分布式网关怎么实现缓存
+SpringCloud gateway是支持继承redis缓存的，redis缓存可以提高网关性能。Nacos gateway本身是不支持redis缓存的，可以用拦截器来实现对redis的集成。
+### SpringCloud gateway网关限流策略
+默认使用令牌桶策略算法，还有漏桶策略，计数器策略，IP地址显示等。令牌桶主要的是优点是能一定程度的突发流量，确定是无法应对短时间内大量请求。漏桶能精准的控制请求速度，但是处理请求时间不固定，间隔时间不太相等的服务时会有影响。计时器策略是指一秒通过多少请求，优点是简单，缺点长时间的大流量请求就不太适用了，IP限制的时主要防止恶意请求的。
+### Nacos Gateway限流策略
+默认是QPS限流的，还支持并发线程数限流，响应时间限流和漏桶限流等。
+
 ##	SpringSecurity
 ###	token续期有哪几种方案
 主要有单token和双token的方案，如果是单token的话，就是只有一个请求token，然后发送请求之后，如果token有效就能正确的返回请求结果，如果token失效，前端就再次请求刷新token，后端验证token是否超过了最大时间或者最大刷新次数，然后返回token重新访问接口。
@@ -177,7 +184,7 @@ java反射是指在运行时态获取类的信息，调用对象的方法，操�
 ###	Hashtable与HashMap的区别
 Hashtable是线程安全的，HashMap是线程不安全的。Hashtable的key不允许为null,HashMap的key允许为null。Hashtable的hash是取的key的hash，但是HashMap的hash是根据算法新生成的。Hashtable初始容量是11，扩容是2n+1。HashMap初始容量是16，扩容是2n。其他在使用上也有一些不同，如迭代器不一样，hashtable 还有contains方法等
 ###	HashMap在多线程中会产生什么问题
-扩容死循环，这个在1.7之后改为了尾插法就不会出现了
+因为使用了头插法，两个线程同时插入的时候会出现死循环，这个在1.7之后改为了尾插法就不会出现了
 多线程的put可能导致元素的丢失
 put和get并发时可能会导致get为null
 ###	有哪些线程安全的map类
@@ -282,7 +289,11 @@ redis的集群主要有几种模式吧，主从模式，哨兵模式，集群模
 RabbitMQ的主要特点是支持磁盘和内存持久化，支持少量堆积。支持事务，支持集群，但是只支持复制模式，不支持顺序消息，不支持消息回溯，不支持消息重试，并发极高。
 RocketMQ的主要特点是只支持磁盘持久化，支持大量堆积。支持事务，支持集群，但是开源版本只能手动切换
 ##	怎么保证消息队列消息不丢失
+<<<<<<< HEAD
 我之前用的RocketMQ，主要考虑了几个方面吧，生产端保证发送成功到消息队列判断返回的消息就可以了，如果需要需要保证完全不会丢失可以开始同步刷盘。消息队列RocketMQ服务方面主要是搞高可用。消费者方面可以通过消费者返回的消息是成功就是消费成功，如果返回later，null或者抛出异常了就是消费失败了会重试，如果不希望重试可以返回C##mmitMessage，消费重试最多16次，超过16次会进入死信。
+=======
+如RocketMQ，主要考虑了几个方面吧，生产端保证发送成功到消息队列判断返回的消息就可以了，如果需要需要保证完全不会丢失可以开始同步刷盘。消息队列RocketMQ服务方面主要是搞高可用。消费者方面可以通过消费者返回的消息是成功就是消费成功，如果返回later，null或者抛出异常了就是消费失败了会重试，如果不希望重试可以返回CommitMessage，消费重试最多16次，超过16次会进入死信。
+>>>>>>> main
 RabbitMQ这边我也了解过，生产者可以开始事务和确认模式，broker开启队列持久化和消息持久化。然后消费者，关闭自动ack，在消费失败的情况下情况下返回nack。
 #	分布式
 ##	分布式事务的实现方式
