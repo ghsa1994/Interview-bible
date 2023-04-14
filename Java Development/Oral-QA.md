@@ -78,6 +78,7 @@ Spring容器有两种BeanFactory和ApplicationContext。BeanFactory是一个简�
 ###	过一下过滤器、拦截器和监听器的区别
 过滤器是基于容器的，在请求到达Servlet之前就能到过滤器，主要作用是过滤一些符合要求的请求，比如说设置字符编码，敏感信息输入，url级别访问权限，压缩响应信息等。
 拦截器是基于SpringMVC,是才用AOP设计思想的，可以用来权限控制，日志，性能监控，处理cookie，异常处理等。监听器也是在容器上注册的，监听器是想获取这个事件发生的详细信息，并不想干预这个事件本身
+
 ###	Spring用到的设计模式
 单例模式，Spring默认创建bean是单例模式。
 工厂模式，Spring使用BeanFactory和ApplicationContest来创建对象
@@ -115,7 +116,7 @@ ComponentScan是配置组件扫描的指令，所扫描当前包和子包下面�
 ###	Spring事务有哪几种实现方式
 使用Transactional注解实现声明式事务，使用transactionTemplate做编程式事务，使用AOP配置事务和使用transactionProxyFactoryBean的声明式事务管理。
 ###	Spring事务的传播机制
-Spring的传播机制有required、surpports，MANDATORY ，REQUIRES_NEW，NOT_SUPporTED，NEVER 和NESTED 。默认的隔离级别是required，就是上下文有事务的时候就用这个事务，如果没有事务就创建一个事务。surpports有事务就加入事务，没有事务就用非事务执行。MANDATorY如果上下文没有事务就抛出异常。REQUIRES_NEW内存都创建一个新的事务，当上下文存在事务的情况下就先挂起执行新的事务。Not_SUPporTED是有事务的情况下就挂起，用非事务方式执行新的代码。never是存在事务抛出异常，没有事务则在没有事务上执行。NESTED嵌套事务是上下午存在事务，则嵌套事务执行，否则就新建事务。
+Spring的传播机制有required、surpports，MANDATORY ，REQUIRES_NEW，NOT_SUPPORTED，NEVER 和NESTED 。默认的隔离级别是required，就是上下文有事务的时候就用这个事务，如果没有事务就创建一个事务。surpports有事务就加入事务，没有事务就用非事务执行。MANDATORY如果上下文没有事务就抛出异常。REQUIRES_NEW内存都创建一个新的事务，当上下文存在事务的情况下就先挂起执行新的事务。Not_SUPPORTED是有事务的情况下就挂起，用非事务方式执行新的代码。never是存在事务抛出异常，没有事务则在没有事务上执行。NESTED嵌套事务是上下文存在事务，则嵌套事务执行，否则就新建事务。
 ###	spring事务的隔离级别
 Spring事务的隔离级别默认情况下是使用数据库的设置，其他4种隔离级别和数据库的隔离级别是一样的。
 ##	SpringCloud
